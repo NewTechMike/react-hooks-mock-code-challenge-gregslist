@@ -6,8 +6,10 @@ import ListingCard from "./ListingCard";
 //2. Clicking the star will "unfavorite/favorite" the clicked item
 // This will select and deselect the star
 
+//3. Clicking the trash will delete the item
+
 function ListingsContainer() {
-  const [items, setItems] = useState("")
+  const [items, setItems] = useState([])
 
   useEffect(() => { 
     fetch("http://localhost:6001/listings")
@@ -15,10 +17,20 @@ function ListingsContainer() {
     .then((item)=>setItems(item))
   },[]);
 
+  function handleItemDelete(deletedItem){
+      const updatedItems = items.filter((item)=>
+        item.id !== deletedItem.id);
+        setItems(updatedItems)
+        console.log("items: ", items)
+  }
+
   const things = items.map((data) => {
-    return <ListingCard key={data.id} listings={data}/>
+    return <ListingCard 
+      key={data.id} 
+      listings={data}
+      onItemDelete={handleItemDelete} />
   }); 
-  
+
   console.log("things: ", things)
   return (
     <main>
