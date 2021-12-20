@@ -13,7 +13,7 @@ function ListingCard({listings, onItemDelete}) {
       method: "DELETE",
     })
     .then((resp)=>resp.json())
-    .then((item)=>onItemDelete(item));
+    .then(()=>onItemDelete(listings));
   }
 
 

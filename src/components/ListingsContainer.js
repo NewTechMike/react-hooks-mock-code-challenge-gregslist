@@ -8,7 +8,9 @@ import ListingCard from "./ListingCard";
 
 //3. Clicking the trash will delete the item
 
-function ListingsContainer() {
+//4. Able to search for items by their name
+
+function ListingsContainer({search}) {
   const [items, setItems] = useState([])
 
   useEffect(() => { 
@@ -18,13 +20,18 @@ function ListingsContainer() {
   },[]);
 
   function handleItemDelete(deletedItem){
+    console.log("DI: ", deletedItem)
       const updatedItems = items.filter((item)=>
         item.id !== deletedItem.id);
         setItems(updatedItems)
-        console.log("items: ", items)
-  }
+      }
+      
+      console.log("items: ", items)
 
-  const things = items.map((data) => {
+  const filterListings = items.filter((item)=>{
+    return item.description.toLowerCase().includes(search.toLowerCase())
+  })
+  const things = filterListings.map((data) => {
     return <ListingCard 
       key={data.id} 
       listings={data}
@@ -32,6 +39,11 @@ function ListingsContainer() {
   }); 
 
   console.log("things: ", things)
+
+  
+
+  console.log("FL: ", filterListings)
+
   return (
     <main>
       <ul className="cards">
